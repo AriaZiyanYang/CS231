@@ -189,4 +189,28 @@ class KNearestNeighbor(object):
       #########################################################################
 
     return y_pred
+# 三类：0,1,2
+X_train = np.array([
+    [0.0, 0.0],   # 0
+    [0.1, 0.0],   # 0
+    [5.0, 5.0],   # 1
+    [5.1, 5.0],   # 1
+    [2.5, 2.5],   # 2
+    [2.6, 2.6],   # 2
+])
+y_train = np.array([0, 0, 1, 1, 2, 2])
+
+X_test = np.array([
+    [0.05, 0.05],  # 0 类附近
+    [5.05, 5.05],  # 1 类附近
+    [2.55, 2.55],  # 2 类附近
+    [2.7, 2.4],    # 更靠近 2，但 k=3 时观察投票
+])
+
+knn = KNearestNeighbor()
+knn.train(X_train, y_train)
+
+pred = knn.predict(X_test, k=3, num_loops=1)
+print("Case 2 preds:", pred)
+# 期望（直觉）: [0, 1, 2, 2]  —— 第4个点对 2 的邻居更多
 
